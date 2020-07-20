@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-nginx
+  labels:
+    app: dev
+spec:
+  selector:
+    matchLabels:
+      app: dev
+      tier: sample
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dev
+        tier: sample
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          ports:
+            - containerPort: 80
+              # name: mysql
+      #     volumeMounts:
+      #       - name: mysql56-master-persistent-storage
+      #         mountPath: /var/lib/mysql
+      # volumes:
+      # - name: mysql56-master-persistent-storage
+      #   persistentVolumeClaim:
+      #     claimName: mysql56-master-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-nginx
+  labels:
+    app: dev
+spec:
+  ports:
+    - port: 80
+      nodePort: 30067
+  selector:
+    app: dev
+    tier: sample
+  type: NodePort

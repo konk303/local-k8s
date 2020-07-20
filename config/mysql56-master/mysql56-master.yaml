@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql56-master
+  labels:
+    app: dev
+spec:
+  selector:
+    matchLabels:
+      app: dev
+      tier: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dev
+        tier: db
+    spec:
+      containers:
+        - name: mysql56-master
+          image: rnidev/mysql56-barracuda
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "1"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql56-master-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql56-master-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql56-master-pvc
+---
