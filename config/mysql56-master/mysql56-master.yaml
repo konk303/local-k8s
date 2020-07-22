@@ -8,14 +8,14 @@ spec:
   selector:
     matchLabels:
       app: dev
-      tier: db
+      tier: db-master
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: dev
-        tier: db
+        tier: db-master
     spec:
       containers:
         - name: mysql56-master

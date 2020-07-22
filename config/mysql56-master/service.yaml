@@ -6,10 +6,10 @@ metadata:
     app: dev
 spec:
   ports:
-    - port: 3306
-      nodePort: 30066
+    - port: 3356
+      targetPort: 3306
       protocol: TCP
   selector:
     app: dev
-    tier: db
-  type: NodePort
+    tier: db-master
+  type: LoadBalancer
