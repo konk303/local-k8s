@@ -29,8 +29,13 @@ spec:
           volumeMounts:
             - name: mysql56-master-persistent-storage
               mountPath: /var/lib/mysql
+            - name: mysql56-master-configs
+              mountPath: /etc/mysql/conf.d
       volumes:
       - name: mysql56-master-persistent-storage
         persistentVolumeClaim:
           claimName: mysql56-master-pvc
+      - name: mysql56-master-configs
+        configMap:
+          name: mysql56-master-conf.d
 ---
