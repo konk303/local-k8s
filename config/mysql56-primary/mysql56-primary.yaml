@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql56-master
+  name: mysql56-primary
   labels:
     app: dev
 spec:
   selector:
     matchLabels:
       app: dev
-      tier: db-master
+      tier: db-primary
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
         app: dev
-        tier: db-master
+        tier: db-primary
     spec:
       containers:
-        - name: mysql56-master
+        - name: mysql56-primary
           image: rnidev/mysql56-barracuda
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
@@ -27,16 +27,16 @@ spec:
             - containerPort: 3306
               name: mysql
           volumeMounts:
-            - name: mysql56-master-persistent-storage
+            - name: mysql56-primary-persistent-storage
               mountPath: /var/lib/mysql
-            - name: mysql56-master-configs
-              mountPath: /etc/mysql/conf.d/mysql56-master.cnf
-              subPath: mysql56-master.cnf
+            - name: mysql56-primary-configs
+              mountPath: /etc/mysql/conf.d/mysql56-primary.cnf
+              subPath: mysql56-primary.cnf
       volumes:
-      - name: mysql56-master-persistent-storage
+      - name: mysql56-primary-persistent-storage
         persistentVolumeClaim:
-          claimName: mysql56-master-pvc
-      - name: mysql56-master-configs
+          claimName: mysql56-primary-pvc
+      - name: mysql56-primary-configs
         configMap:
-          name: mysql56-master-conf.d
+          name: mysql56-primary-conf.d
 ---
