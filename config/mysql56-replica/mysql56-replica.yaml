@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql56-replica
+  labels:
+    app: dev
+spec:
+  selector:
+    matchLabels:
+      app: dev
+      tier: db-replica
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dev
+        tier: db-replica
+    spec:
+      containers:
+        - name: mysql56-replica
+          image: rnidev/mysql56-barracuda
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "1"
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql56-replica-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: mysql56-replica-configs
+              mountPath: /etc/mysql/conf.d
+            - name: mysql56-replica-initdb
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mysql56-replica-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql56-replica-pvc
+      - name: mysql56-replica-configs
+        configMap:
+          name: mysql56-replica-conf.d
+      - name: mysql56-replica-initdb
+        configMap:
+          name: mysql56-replica-docker-entrypoint-initdb.d
+---
