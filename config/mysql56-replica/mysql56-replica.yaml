@@ -30,7 +30,8 @@ spec:
             - name: mysql56-replica-persistent-storage
               mountPath: /var/lib/mysql
             - name: mysql56-replica-configs
-              mountPath: /etc/mysql/conf.d
+              mountPath: /etc/mysql/conf.d/mysql56-replica.cnf
+              subPath: mysql56-replica.cnf
             - name: mysql56-replica-initdb
               mountPath: /docker-entrypoint-initdb.d
       volumes:

@@ -30,7 +30,8 @@ spec:
             - name: mysql56-master-persistent-storage
               mountPath: /var/lib/mysql
             - name: mysql56-master-configs
-              mountPath: /etc/mysql/conf.d
+              mountPath: /etc/mysql/conf.d/mysql56-master.cnf
+              subPath: mysql56-master.cnf
       volumes:
       - name: mysql56-master-persistent-storage
         persistentVolumeClaim:
