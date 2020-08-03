@@ -27,7 +27,7 @@ pos=`mysql -u root -h ${MYSQL56_PRIMARY_SVC_SERVICE_HOST} -P ${MYSQL56_PRIMARY_S
 
 # slaveの開始
 mysql -u root -e "RESET SLAVE";
-mysql -u root -e "CHANGE MASTER TO MASTER_HOST='mysql', MASTER_USER='root', MASTER_PASSWORD='', MASTER_LOG_FILE='${log_file}', MASTER_LOG_POS=${pos};"
+mysql -u root -e "CHANGE MASTER TO MASTER_HOST='${MYSQL56_PRIMARY_SVC_SERVICE_HOST}', MASTER_PORT=${MYSQL56_PRIMARY_SVC_SERVICE_PORT}, MASTER_USER='root', MASTER_PASSWORD='', MASTER_LOG_FILE='${log_file}', MASTER_LOG_POS=${pos};"
 mysql -u root -e "start slave"
 
 # masterをunlockする
